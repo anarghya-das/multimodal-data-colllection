@@ -9,6 +9,12 @@ def write_audio_data(audio_data_buffer, out_path='audio.wav'):
     sf.write(out_path, audio_data_buffer, audio_fs)
 
 
+def write_markers(maarker_stream_stims):
+    with open('markers.txt', 'w') as f:
+        for marker in maarker_stream_stims:
+            f.write(f"{marker[0]}\n")
+
+
 def check_data(data_path):
     data_types = ['EEG', 'Markers', 'Audio']
     if os.path.exists(data_path):
@@ -24,6 +30,7 @@ def check_data(data_path):
 
         audio_data = audio_stream['time_series'].squeeze()
         write_audio_data(audio_data)
+        write_markers(marker_stream['time_series'])
         print("Audio data written to audio.wav")
     else:
         print("Data file not found")
