@@ -268,7 +268,7 @@
         <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="import * as random from 'random';&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
-        <Param val="marker_outlet.push_sample(['stim-{words[word_idx]}'])&amp;#10;stimulus_val = words[word_idx]" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="marker_outlet.push_sample([f'stim-{words[word_idx]}'])&amp;#10;stimulus_val = words[word_idx]" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Py" valType="str" updates="None" name="Code Type"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
