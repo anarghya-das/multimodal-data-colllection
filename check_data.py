@@ -2,6 +2,7 @@ import sys
 import os
 import pyxdf
 import soundfile as sf
+import numpy as np
 
 
 def write_audio_data(audio_data_buffer, out_path='audio.wav'):
@@ -9,10 +10,26 @@ def write_audio_data(audio_data_buffer, out_path='audio.wav'):
     sf.write(out_path, audio_data_buffer, audio_fs)
 
 
-def write_markers(maarker_stream_stims):
-    with open('markers.txt', 'w') as f:
+def write_markers(maarker_stream_stims, out_path='markers.txt'):
+    with open(out_path, 'w') as f:
         for marker in maarker_stream_stims:
             f.write(f"{marker[0]}\n")
+
+
+def calculate_nans(data):
+    n_nans = np.sum(np.isnan(data))
+    perc_nans = n_nans / len(data) * 100
+    return n_nans, perc_nans
+
+
+def write_data(audio, markers, data_path="temp_data"):
+    if not os.path.exists(data_path):
+        os.makedirs(data_path)
+
+    write_audio_data(audio, out_path=os.path.join(data_path, 'audio.wav'))
+    write_markers(markers['time_series'],
+                  out_path=os.path.join(data_path, 'markers.txt'))
+    print(f"Audio data written to {os.path.join(data_path, 'audio.wav')}")
 
 
 def check_data(data_path):
@@ -23,15 +40,28 @@ def check_data(data_path):
         # check whether the data has 3 streams of type 'Markers', 'EEG' and 'Audio' index can be different
         assert all([d['info']['type'][0] in data_types for d in data]
                    ), "Data does not contain required stream types"
-        marker_stream = [d for d in data if d['info']
-                         ['type'][0] == 'Markers'][0]
-        eeg_stream = [d for d in data if d['info']['type'][0] == 'EEG'][0]
-        audio_stream = [d for d in data if d['info']['type'][0] == 'Audio'][0]
+        marker_stream = None
+        eeg_stream = None
+        audio_stream = None
+
+        for d in data:
+            if d['info']['type'][0] == 'Markers' and marker_stream is None:
+                marker_stream = d
+            elif d['info']['type'][0] == 'EEG' and eeg_stream is None:
+                eeg_stream = d
+            elif d['info']['type'][0] == 'Audio' and audio_stream is None:
+                audio_stream = d
 
         audio_data = audio_stream['time_series'].squeeze()
-        write_audio_data(audio_data)
-        write_markers(marker_stream['time_series'])
-        print("Audio data written to audio.wav")
+        audio_nans, audio_nans_percentage = calculate_nans(audio_data)
+        eeg_nans, eeg_nans_percentage = calculate_nans(
+            eeg_stream['time_series'])
+        print(f"Audio data contains {
+              audio_nans} nans ({audio_nans_percentage:.2f}%)")
+        print(f"EEG data contains {
+              eeg_nans} nans ({eeg_nans_percentage:.2f}%)")
+
+        write_data(audio_data, marker_stream)
     else:
         print("Data file not found")
 
