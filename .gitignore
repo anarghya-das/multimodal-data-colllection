@@ -2,3 +2,4 @@ data
 temp_data
 *_lastrun.py
 .DS_Store
+.vscode
