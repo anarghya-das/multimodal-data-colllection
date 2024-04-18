@@ -15,16 +15,26 @@
 
 ### Lab Recorder Configuration
 
-- Currently, there are some issues with setting up the lab recorder for Apple Silicon Macs. Follow [this guide]((https://github.com/labstreaminglayer/App-LabRecorder/issues/109)) to try to resolve it or use the Windows or Linux operating system.
+- Currently, there are some issues with setting up the lab recorder for Apple Silicon Macs. Follow [this guide]((https://github.com/labstreaminglayer/App-LabRecorder/issues/109)) to resolve it or use the Windows or Linux operating system.
 - Ensure `RCS` is enabled and `RCS port` is set to `22345` 
 ![Lab Recorder ](images/lab_recorder.png)
 - Select an appropriate location for the study root
 - Leave the rest of the fields unchanged
 
+### Testing Audio Input Script
+
+- Run the script: `python3 test_audio_input`
+- All audio recording devices connected to the computer will be displayed once you run the script. Input the number corresponding to the recording device you wish to test, and it will record 3 seconds of audio and play it back.
+- If you can't hear the audio that you recorded played back, rerun the script and try a different input device.
+
+
 ### Audio Recording Script
 
-- Download and run the Computer Audio Recorder (LSL) script.
 - Run the script: `python3 record_audio.py`
+- Once you run the script, all audio recording devices connected to the computer will be displayed. 
+  - Run the testing audio input script before to make sure the selected audio recording input works 
+- Input the number corresponding to the recording device you wish to use for recording audio for this experiment, and press enter.
+- This will start streaming audio from your computer to LSL to record audio data. **Make sure the script continues to run in the background throughout your recording.**
 - To stop the script, press `Ctrl+C` once the experiment is finished.
 
 ### EEG Recording Configuration
@@ -46,7 +56,9 @@
 
 
 #### fNIRS
-- 
+
+- Check [this page](https://labstreaminglayer.readthedocs.io/info/supported_devices.html#supported-fnirs-hardware) for a list of LSL-supported fNIRS devices
+- Find similar settings in your fNIRS device software as the OpenBCI above to enable LSL stream and make sure it is visible in the Lab Recorder 
 
 ### PsychoPy Configuration
 
@@ -76,6 +88,7 @@
   - Make sure the EEG recording device, audio recorder script, and Lab Recorder application are running before starting the experiment from Psychopy
   - For part 1, open the `mindvoice-pt1.psyexp` file, and for part 2, open the `mindvoice-pt2.psyexp` file in PsychoPy 
 - Open Psychopy and run the experiment using the play (annotated in red square)
+  
 ![Run](images/run-exp.png)
 
 - A new dialog will open where you can enter a unique ID (number) for the participant and leave the run unchanged unless you record multiple runs.
@@ -86,7 +99,7 @@
 
 - After clicking OK, the experiment will start. Please make sure the subjects follow the prompts on the screen.
   - Note: You can press the Escape key to stop the experiment in case of an error, but the data will not be recorded, and the recording will not be stopped in the Lab Recorder. Please ensure you manually stop the Lab Recorder and restart the experiment.
-  - 
+
 ![Welcome](images/welcome.png)
 
 - Also, please ensure the Lab Recorder records all data streams once the experiment starts in PsychoPy. Using two screens during the experiment will be beneficial, one where the experiment is run and the other where you can see the lab recorder running.
@@ -98,8 +111,8 @@
 - Once the experiment finishes, the data file with markers, audio, and EEG data should be stored in the `Study Root` folder path found in the Lab Recorder. A single `.xdf` file will be created for each part of the experiment per subject.
 - Once part 1 of the experiment is done, open the part 2 experiment file in PsychoPy and repeat the steps.
   
-### Check the recorded data file
+### Check Recorded Data
 
 - To check if the data in the file created by the Lab Recorder was correctly stored, you can run the following command `python3 check_data.py <path_to_data_file>`
   - `<path_to_data_file>` argument expects the path where the `.xdf` you want to check is stored. 
-- This script checks if there are three streams of data recorded in `.xdf` file. It creates a folder called `temp_data` with an `audio.wav` file containing the complete audio recording of the experiment and a `markers.txt` file containing the names of all the stimuli recorded in that data file. 
+- This script checks if there are three streams of data (EEG/fNIRS, Audio, Markers) recorded in `.xdf` file. It creates a folder called `temp_data` with an `audio.wav` file containing the complete audio recording of the experiment and a `markers.txt` file containing the names of all the stimuli recorded in that data file. 
