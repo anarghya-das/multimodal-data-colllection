@@ -1,6 +1,6 @@
-import pylsl
 import pyaudio
 import numpy as np
+from mne_lsl.lsl import StreamInfo, StreamOutlet, local_clock
 
 
 def list_and_select_device(p):
@@ -19,21 +19,22 @@ def list_and_select_device(p):
 
 def create_lsl_stream(stream_name, stream_type, channels, rate, stream_id):
     """
-    Creates and returns an LSL stream outlet based on the provided parameters.
+    Creates and returns an LSL stream outlet based on the provided parameters using mne_lsl.
     """
-    info = pylsl.StreamInfo(stream_name, stream_type,
-                            channels, rate, pylsl.cf_int16, stream_id)
-    outlet = pylsl.StreamOutlet(info)
+    info = StreamInfo(name=stream_name, stype=stream_type, n_channels=channels,
+                      sfreq=rate, dtype='int16', source_id=stream_id)
+    outlet = StreamOutlet(info)
     return outlet
 
 
 def audio_stream_callback(outlet, in_data, frame_count, time_info, status):
     """
-    Callback function to stream audio data into LSL.
-    Converts audio data to a numpy array and pushes it into the provided LSL stream outlet.
+    Callback function to stream audio data into LSL using mne_lsl.
+    Converts audio data to a numpy array and pushes it into the LSL stream via mne_lsl.
     """
-    audio_data = np.frombuffer(in_data, dtype=np.int16)
-    outlet.push_chunk(audio_data.tolist())
+    audio_data = np.frombuffer(in_data, dtype=np.int16).copy()
+    audio_data = audio_data.reshape(-1, 1)
+    outlet.push_chunk(audio_data)
     return (in_data, pyaudio.paContinue)
 
 
@@ -64,7 +65,7 @@ def main():
 
     try:
         while stream.is_active():
-            pylsl.local_clock()  # Prevent the loop from being optimized out
+            local_clock()  # Looping to keep the stream active
     except KeyboardInterrupt:
         stream.stop_stream()
         stream.close()
