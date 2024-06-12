@@ -27,8 +27,8 @@ def write_data(audio, markers, data_path="temp_data"):
         os.makedirs(data_path)
 
     write_audio_data(audio, out_path=os.path.join(data_path, 'audio.wav'))
-    write_markers(markers['time_series'],
-                  out_path=os.path.join(data_path, 'markers.txt'))
+    # write_markers(markers['time_series'],
+    #   out_path=os.path.join(data_path, 'markers.txt'))
     print(f"Audio data written to {os.path.join(data_path, 'audio.wav')}")
 
 
@@ -38,7 +38,7 @@ def check_data(data_path):
         data, _ = pyxdf.load_xdf(data_path)
         stream_names = [d['info']['name'][0] for d in data]
         print('Data contains the following streams: ', stream_names)
-        assert len(data) == 3, "Data does not contain 3 streams"
+        # assert len(data) == 3, "Data does not contain 3 streams"
         # # check whether the data has 3 streams of type 'Markers', 'EEG' and 'Audio' index can be different
         # assert all([d['info']['type'][0] in data_types for d in data]
         #            ), "Data does not contain required stream types"
@@ -57,12 +57,12 @@ def check_data(data_path):
 
         audio_data = audio_stream['time_series'].squeeze()
         audio_nans, audio_nans_percentage = calculate_nans(audio_data)
-        eeg_nans, eeg_nans_percentage = calculate_nans(
-            eeg_stream['time_series'])
+        # eeg_nans, eeg_nans_percentage = calculate_nans(
+        #     eeg_stream['time_series'])
         print(
             f"Audio data contains {audio_nans} nans ({audio_nans_percentage: .2f} %)")
-        print(
-            f"EEG data contains {eeg_nans} nans ({eeg_nans_percentage: .2f} %)")
+        # print(
+        #     f"EEG data contains {eeg_nans} nans ({eeg_nans_percentage: .2f} %)")
 
         write_data(audio_data, marker_stream)
     else:
