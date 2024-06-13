@@ -1,0 +1,24 @@
+task_1: words
+task_2: sentences
+fnirs:
+  baseline_duration: 30
+  stimuli_repeats: 2
+  stimulus_duration: 3
+  imagine_duration: 5
+  speak_duration: 5
+  rest_range: [8, 12]
+eeg:
+  baseline_duration: 15
+  stimuli_repeats: 5
+  stimulus_duration: 3
+  imagine_duration: 3
+  speak_duration: 3
+  rest_range: [2, 3]
+test:
+  words: ["cat", "dog", "bird"]
+  baseline_duration: 1
+  stimuli_repeats: 1
+  stimulus_duration: 1
+  imagine_duration: 1
+  speak_duration: 1
+  rest_range: [1, 1]
