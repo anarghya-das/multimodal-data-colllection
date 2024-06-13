@@ -2,7 +2,7 @@ task_1: words
 task_2: sentences
 fnirs:
   baseline_duration: 30
-  stimuli_repeats: 2
+  stimuli_repeats: 3
   stimulus_duration: 3
   imagine_duration: 5
   speak_duration: 5

@@ -8,7 +8,7 @@
     <Param val="u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])" valType="code" updates="None" name="Data filename"/>
     <Param val="True" valType="bool" updates="None" name="Enable Escape"/>
     <Param val="" valType="str" updates="None" name="End Message"/>
-    <Param val="{'participant': 'f&quot;{randint(0, 999999):06.0f}&quot;', 'run': '1', 'test_run': 'false', 'stimuli_repetitions': '5'}" valType="code" updates="None" name="Experiment info"/>
+    <Param val="{'participant': 'f&quot;{randint(0, 999999):06.0f}&quot;', 'run': '1', 'config': 'fnirs', 'test_run': 'false'}" valType="code" updates="None" name="Experiment info"/>
     <Param val="True" valType="bool" updates="None" name="Force stereo"/>
     <Param val="True" valType="bool" updates="None" name="Full-screen window"/>
     <Param val="" valType="str" updates="None" name="HTML path"/>
@@ -90,14 +90,14 @@
         <Param val="False" valType="bool" updates="None" name="useWindowParams"/>
       </RoutineSettingsComponent>
       <CodeComponent name="init" plugin="None">
-        <Param val="from pylsl import StreamInfo, StreamOutlet&amp;#10;import socket&amp;#10;import os&amp;#10;&amp;#10;marker_info = StreamInfo('MarkerStream', 'Markers',&amp;#10;                         1, 0, 'string', 'myuid8342')&amp;#10;&amp;#10;marker_outlet = StreamOutlet(marker_info)&amp;#10;started_recording = False&amp;#10;s = socket.create_connection((&quot;localhost&quot;, 22345))" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="from pylsl import StreamInfo, StreamOutlet&amp;#10;import socket&amp;#10;import os&amp;#10;import yaml&amp;#10;import random&amp;#10;&amp;#10;marker_info = StreamInfo('MarkerStream', 'Markers',&amp;#10;                         1, 0, 'string', 'myuid8342')&amp;#10;config_file = open('config.yaml')&amp;#10;yaml_config = yaml.safe_load(config_file)&amp;#10;marker_outlet = StreamOutlet(marker_info)&amp;#10;started_recording = False&amp;#10;s = socket.create_connection((&quot;localhost&quot;, 22345))" valType="extendedCode" updates="constant" name="Before Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
-        <Param val="participant_id = expInfo['participant']&amp;#10;run = expInfo['run']&amp;#10;task = 'sentances'&amp;#10;test_run = expInfo['test_run']&amp;#10;stimuli_repetitions = expInfo['stimuli_repetitions']&amp;#10;TESTING = test_run == 'true' &amp;#10;&amp;#10;config_str = f'filename {{template:sub-%p/sub-%p_task-%b_run-%n.xdf}} {{run:{run}}} {{participant:{participant_id}}} {{task:{task}}}\n'&amp;#10;print(config_str)&amp;#10;&amp;#10;s.sendall(b&quot;update\n&quot;)&amp;#10;s.sendall(b&quot;select all\n&quot;)&amp;#10;s.sendall(config_str.encode('utf-8'))&amp;#10;s.sendall(b&quot;start\n&quot;)&amp;#10;started_recording = True&amp;#10;&amp;#10;REPEATS = int(stimuli_repetitions)&amp;#10;print(f&quot;STIM REPEATS: {REPEATS}&quot;)&amp;#10;grandfather = open(os.path.join('stimuli','stimuli_grandfather.txt'), 'r')&amp;#10;rainbow = open(os.path.join('stimuli','stimuli_rainbow.txt'), 'r')&amp;#10;windsun = open(os.path.join('stimuli','stimuli_windsun.txt'), 'r')&amp;#10;grandfather_lines = grandfather.read().split('\n')&amp;#10;rainbow_lines = rainbow.read().split('\n')&amp;#10;windsun_lines = windsun.read().split('\n')&amp;#10;all_lines = [(grandfather_lines, 'grandfather'), (rainbow_lines,'rainbow'), (windsun_lines,'windsun')]&amp;#10;all_lines *= REPEATS&amp;#10;TRIALS = len(all_lines)&amp;#10;if TESTING:&amp;#10;    TRIALS = 1&amp;#10;index=0" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="participant_id = expInfo['participant']&amp;#10;run = expInfo['run']&amp;#10;test_run = expInfo['test_run']&amp;#10;config_type = expInfo['config']&amp;#10;TESTING = test_run == 'true' &amp;#10;task = yaml_config['task_2']&amp;#10;exp_config = yaml_config[config_type]&amp;#10;&amp;#10;config_str = f'filename {{template:sub-%p/sub-%p_task-%b_run-%n.xdf}} {{run:{run}}} {{participant:{participant_id}}} {{task:{task}}}\n'&amp;#10;print(config_str)&amp;#10;&amp;#10;s.sendall(b&quot;update\n&quot;)&amp;#10;s.sendall(b&quot;select all\n&quot;)&amp;#10;s.sendall(config_str.encode('utf-8'))&amp;#10;s.sendall(b&quot;start\n&quot;)&amp;#10;started_recording = True&amp;#10;&amp;#10;stimuli_repeats = exp_config['stimuli_repeats']&amp;#10;baseline_duration = exp_config['baseline_duration']&amp;#10;rest_range = exp_config['rest_range']&amp;#10;&amp;#10;REPEATS = int(stimuli_repeats)&amp;#10;print(f&quot;STIM REPEATS: {REPEATS}&quot;)&amp;#10;grandfather = open(os.path.join('stimuli','stimuli_grandfather.txt'), 'r')&amp;#10;rainbow = open(os.path.join('stimuli','stimuli_rainbow.txt'), 'r')&amp;#10;windsun = open(os.path.join('stimuli','stimuli_windsun.txt'), 'r')&amp;#10;grandfather_lines = grandfather.read().split('\n')&amp;#10;rainbow_lines = rainbow.read().split('\n')&amp;#10;windsun_lines = windsun.read().split('\n')&amp;#10;all_lines = [(grandfather_lines, 'grandfather'), (rainbow_lines,'rainbow'), (windsun_lines,'windsun')]&amp;#10;all_lines *= REPEATS&amp;#10;TRIALS = len(all_lines)&amp;#10;if TESTING:&amp;#10;    TRIALS = 1&amp;#10;index=0" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Py" valType="str" updates="None" name="Code Type"/>
-        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="keys = event.getKeys()&amp;#10;if 'escape' in keys and started_recording:&amp;#10;    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="if 'escape' in event.getKeys():&amp;#10;    core.quit()" valType="extendedCode" updates="constant" name="Each JS Frame"/>
         <Param val="if started_recording:&amp;#10;    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False&amp;#10;" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
@@ -173,9 +173,9 @@
         <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
-        <Param val="marker_outlet.push_sample([&quot;rest&quot;])&amp;#10;current_stim = all_lines[index][0]&amp;#10;stim_name = all_lines[index][1]&amp;#10;&amp;#10;sentence_length = len(current_stim)&amp;#10;if TESTING:&amp;#10;    sentence_length = 1&amp;#10;sentence_idx = 0&amp;#10;index+=1" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="marker_outlet.push_sample([&quot;rest&quot;])&amp;#10;rest_duration = random.randint(rest_range[0],rest_range[1])&amp;#10;index+=1&amp;#10;current_stim = all_lines[index][0]&amp;#10;stim_name = all_lines[index][1]&amp;#10;&amp;#10;sentence_length = len(current_stim)&amp;#10;if TESTING:&amp;#10;    sentence_length = 1&amp;#10;sentence_idx = 0" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Py" valType="str" updates="None" name="Code Type"/>
-        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="keys = event.getKeys()&amp;#10;if 'escape' in keys and started_recording:&amp;#10;    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
@@ -206,7 +206,7 @@
         <Param val="time (s)" valType="str" updates="None" name="startType"/>
         <Param val="0.0" valType="code" updates="None" name="startVal"/>
         <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
-        <Param val="4" valType="code" updates="constant" name="stopVal"/>
+        <Param val="$rest_duration" valType="code" updates="constant" name="stopVal"/>
         <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
         <Param val="from exp settings" valType="str" updates="None" name="units"/>
         <Param val="" valType="list" updates="constant" name="vertices"/>
@@ -320,7 +320,7 @@
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
         <Param val="stimulus_val = current_stim[sentence_idx]&amp;#10;marker_outlet.push_sample([f&quot;imagine-{stim_name}-{sentence_idx}&quot;])" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Py" valType="str" updates="None" name="Code Type"/>
-        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="keys = event.getKeys()&amp;#10;if 'escape' in keys and started_recording:&amp;#10;    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
@@ -463,8 +463,8 @@
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
         <Param val="marker_outlet.push_sample([f&quot;speak-{stim_name}-{sentence_idx}&quot;])&amp;#10;sentence_idx+=1" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Py" valType="str" updates="None" name="Code Type"/>
-        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
-        <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
+        <Param val="keys = event.getKeys()&amp;#10;if 'escape' in keys and started_recording:&amp;#10;    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="keys = event.getKeys()&amp;#10;if 'escape' in keys and started_recording:&amp;#10;    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False" valType="extendedCode" updates="constant" name="Each JS Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
@@ -616,9 +616,71 @@
         <Param val="code_end" valType="code" updates="None" name="name"/>
       </CodeComponent>
     </Routine>
+    <Routine name="baseline">
+      <RoutineSettingsComponent name="baseline" plugin="None">
+        <Param val="none" valType="str" updates="None" name="backgroundFit"/>
+        <Param val="" valType="str" updates="None" name="backgroundImg"/>
+        <Param val="$[0,0,0]" valType="color" updates="None" name="color"/>
+        <Param val="rgb" valType="str" updates="None" name="colorSpace"/>
+        <Param val="" valType="str" updates="constant" name="desc"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="baseline" valType="code" updates="None" name="name"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="constant" name="skipIf"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="False" valType="bool" updates="None" name="useWindowParams"/>
+      </RoutineSettingsComponent>
+      <CodeComponent name="code_baseline" plugin="None">
+        <Param val="" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="marker_outlet.push_sample([&quot;rest&quot;])&amp;#10;current_stim = all_lines[index][0]&amp;#10;stim_name = all_lines[index][1]&amp;#10;&amp;#10;sentence_length = len(current_stim)&amp;#10;if TESTING:&amp;#10;    sentence_length = 1&amp;#10;sentence_idx = 0" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="Py" valType="str" updates="None" name="Code Type"/>
+        <Param val="keys = event.getKeys()&amp;#10;if 'escape' in keys and started_recording:&amp;#10;    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="code_baseline" valType="code" updates="None" name="name"/>
+      </CodeComponent>
+      <PolygonComponent name="polygon_2" plugin="None">
+        <Param val="center" valType="str" updates="constant" name="anchor"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="white" valType="color" updates="constant" name="fillColor"/>
+        <Param val="linear" valType="str" updates="constant" name="interpolate"/>
+        <Param val="white" valType="color" updates="constant" name="lineColor"/>
+        <Param val="1" valType="num" updates="constant" name="lineWidth"/>
+        <Param val="4" valType="int" updates="constant" name="nVertices"/>
+        <Param val="polygon_2" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0, 0)" valType="list" updates="constant" name="pos"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="cross" valType="str" updates="None" name="shape"/>
+        <Param val="(0.3, 0.3)" valType="list" updates="constant" name="size"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="0.0" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="$baseline_duration" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="list" updates="constant" name="vertices"/>
+      </PolygonComponent>
+    </Routine>
   </Routines>
   <Flow>
     <Routine name="weclome"/>
+    <Routine name="baseline"/>
     <LoopInitiator loopType="TrialHandler" name="trials">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
@@ -630,7 +692,6 @@
       <Param name="name" updates="None" val="trials" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
-    <Routine name="rest"/>
     <LoopInitiator loopType="TrialHandler" name="num_sentances">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
@@ -645,6 +706,7 @@
     <Routine name="imagine"/>
     <Routine name="speak"/>
     <LoopTerminator name="num_sentances"/>
+    <Routine name="rest"/>
     <LoopTerminator name="trials"/>
     <Routine name="end"/>
   </Flow>
