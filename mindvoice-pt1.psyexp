@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" ?>
-<PsychoPy2experiment encoding="utf-8" version="2024.1.5">
+<PsychoPy2experiment encoding="utf-8" version="2024.2.4">
   <Settings>
     <Param val="3" valType="str" updates="None" name="Audio latency priority"/>
     <Param val="ptb" valType="str" updates="None" name="Audio lib"/>
@@ -34,6 +34,8 @@
     <Param val="{'thisRow.t': 'priority.CRITICAL', 'expName': 'priority.LOW'}" valType="dict" updates="None" name="colPriority"/>
     <Param val="-1.0000, -1.0000, -1.0000" valType="color" updates="None" name="color"/>
     <Param val="rgb" valType="str" updates="None" name="colorSpace"/>
+    <Param val="warning" valType="code" updates="None" name="consoleLoggingLevel"/>
+    <Param val="default" valType="str" updates="None" name="ecSampleRate"/>
     <Param val="100.1.1.1" valType="str" updates="None" name="elAddress"/>
     <Param val="FILTER_LEVEL_2" valType="str" updates="None" name="elDataFiltering"/>
     <Param val="FILTER_LEVEL_OFF" valType="str" updates="None" name="elLiveFiltering"/>
@@ -69,7 +71,7 @@
     <Param val="1000" valType="num" updates="None" name="plPupilRemoteTimeoutMs"/>
     <Param val="False" valType="bool" updates="None" name="plPupillometryOnly"/>
     <Param val="psychopy_iohub_surface" valType="str" updates="None" name="plSurfaceName"/>
-    <Param val="1" valType="code" updates="None" name="runMode"/>
+    <Param val="0" valType="code" updates="None" name="runMode"/>
     <Param val="False" valType="bool" updates="None" name="rush"/>
     <Param val="time" valType="str" updates="None" name="sortColumns"/>
     <Param val="" valType="str" updates="None" name="tbLicenseFile"/>
@@ -88,6 +90,7 @@
         <Param val="" valType="str" updates="constant" name="desc"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
         <Param val="welcome" valType="code" updates="None" name="name"/>
         <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
         <Param val="" valType="code" updates="constant" name="skipIf"/>
@@ -96,16 +99,16 @@
         <Param val="False" valType="bool" updates="None" name="useWindowParams"/>
       </RoutineSettingsComponent>
       <CodeComponent name="code_init" plugin="None">
-        <Param val="from pylsl import StreamInfo, StreamOutlet&amp;#10;import socket&amp;#10;import random&amp;#10;import os&amp;#10;import yaml&amp;#10;&amp;#10;marker_info = StreamInfo('MarkerStream', 'Markers',&amp;#10;                         1, 0, 'string', 'myuid8342')&amp;#10;                         &amp;#10;config_file = open('config.yaml')&amp;#10;yaml_config = yaml.safe_load(config_file)&amp;#10;marker_outlet = StreamOutlet(marker_info)&amp;#10;started_recording = False&amp;#10;s = socket.create_connection((&quot;localhost&quot;, 22345))" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="from pylsl import StreamInfo, StreamOutlet&amp;#10;import socket&amp;#10;import random&amp;#10;import os&amp;#10;import yaml&amp;#10;&amp;#10;marker_info = StreamInfo('MarkerStream', 'Markers',&amp;#10;                         1, 0, 'string', 'myuid8342')&amp;#10;                         &amp;#10;config_file = open('config.yaml')&amp;#10;yaml_config = yaml.safe_load(config_file)&amp;#10;marker_outlet = StreamOutlet(marker_info)&amp;#10;started_recording = False&amp;#10;#s = socket.create_connection((&quot;localhost&quot;, 22345))" valType="extendedCode" updates="constant" name="Before Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
-        <Param val="participant_id = expInfo['participant']&amp;#10;run = expInfo['run']&amp;#10;test_run = expInfo['test_run']&amp;#10;config_type = expInfo['config']&amp;#10;exp_config = yaml_config[config_type]&amp;#10;task = yaml_config['task_1']&amp;#10;TESTING = test_run == 'true' &amp;#10;&amp;#10;config_str = f'filename {{template:sub-%p/sub-%p_task-%b_run-%n.xdf}} {{run:{run}}} {{participant:{participant_id}}} {{task:{task}}}\n'&amp;#10;print(config_str)&amp;#10;&amp;#10;s.sendall(b&quot;update\n&quot;)&amp;#10;s.sendall(b&quot;select all\n&quot;)&amp;#10;s.sendall(config_str.encode('utf-8'))&amp;#10;s.sendall(b&quot;start\n&quot;)&amp;#10;started_recording = True&amp;#10;&amp;#10;# constants&amp;#10;baseline_duration = exp_config['baseline_duration']&amp;#10;stimuli_repetitions = exp_config['stimuli_repeats']&amp;#10;rest_range = exp_config['rest_range']&amp;#10;stimulus_duration = exp_config['stimulus_duration']&amp;#10;imagine_duration = exp_config['imagine_duration']&amp;#10;speak_duration = exp_config['speak_duration']&amp;#10;NUM_REPS = int(stimuli_repetitions)&amp;#10;&amp;#10;print(f&quot;Number of repititions: {NUM_REPS}&quot;) &amp;#10;input_file = open(os.path.join('stimuli','stimuli_words.txt'))&amp;#10;words = [x.strip() for x in input_file]&amp;#10;if config_type == 'test':&amp;#10;    words = exp_config['words']&amp;#10;words = words * NUM_REPS&amp;#10;random.shuffle(words)&amp;#10;word_idx = 0&amp;#10;NUM_TRIALS = len(words)&amp;#10;if TESTING:&amp;#10;    NUM_TRIALS = 1&amp;#10;action_progress = 1" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="participant_id = expInfo['participant']&amp;#10;run = expInfo['run']&amp;#10;test_run = expInfo['test_run']&amp;#10;config_type = expInfo['config']&amp;#10;exp_config = yaml_config[config_type]&amp;#10;task = yaml_config['task_1']&amp;#10;TESTING = test_run == 'true' &amp;#10;&amp;#10;config_str = f'filename {{template:sub-%p/sub-%p_task-%b_run-%n.xdf}} {{run:{run}}} {{participant:{participant_id}}} {{task:{task}}}\n'&amp;#10;print(config_str)&amp;#10;#&amp;#10;#s.sendall(b&quot;update\n&quot;)&amp;#10;#s.sendall(b&quot;select all\n&quot;)&amp;#10;#s.sendall(config_str.encode('utf-8'))&amp;#10;#s.sendall(b&quot;start\n&quot;)&amp;#10;started_recording = True&amp;#10;&amp;#10;# constants&amp;#10;baseline_duration = exp_config['baseline_duration']&amp;#10;stimuli_repetitions = exp_config['stimuli_repeats']&amp;#10;rest_range = exp_config['rest_range']&amp;#10;stimulus_duration = exp_config['stimulus_duration']&amp;#10;imagine_duration = exp_config['imagine_duration']&amp;#10;speak_duration = exp_config['speak_duration']&amp;#10;NUM_REPS = int(stimuli_repetitions)&amp;#10;&amp;#10;print(f&quot;Number of repititions: {NUM_REPS}&quot;) &amp;#10;input_file = open(os.path.join('stimuli','stimuli_words.txt'))&amp;#10;words = [x.strip() for x in input_file]&amp;#10;if config_type == 'test':&amp;#10;    words = exp_config['words']&amp;#10;words = words * NUM_REPS&amp;#10;random.shuffle(words)&amp;#10;word_idx = 0&amp;#10;NUM_TRIALS = len(words)&amp;#10;if TESTING:&amp;#10;    NUM_TRIALS = 1&amp;#10;action_progress = 1&amp;#10;marker_outlet.push_sample([&quot;startend&quot;])" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="import * as random from 'random';&amp;#10;import {StreamInfo, StreamOutlet} from 'pylsl';&amp;#10;import * as socket from 'socket';&amp;#10;Math.random.seed(50);&amp;#10;marker_info = new StreamInfo(&quot;MarkerStream&quot;, &quot;Markers&quot;, 1, 0, &quot;string&quot;, &quot;myuid8342&quot;);&amp;#10;marker_outlet = new StreamOutlet(marker_info);&amp;#10;started_recording = false;&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Py" valType="str" updates="None" name="Code Type"/>
         <Param val="keys = event.getKeys()&amp;#10;if 'escape' in keys and started_recording:&amp;#10;    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
-        <Param val="if started_recording:&amp;#10;    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False&amp;#10;" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="if started_recording:&amp;#10;#    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False&amp;#10;" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
@@ -117,6 +120,7 @@
         <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
         <Param val="1" valType="num" updates="constant" name="contrast"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
         <Param val="Open Sans" valType="str" updates="constant" name="font"/>
@@ -168,6 +172,7 @@
         <Param val="" valType="str" updates="constant" name="desc"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
         <Param val="rest" valType="code" updates="None" name="name"/>
         <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
         <Param val="" valType="code" updates="constant" name="skipIf"/>
@@ -197,6 +202,7 @@
         <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
         <Param val="1" valType="num" updates="constant" name="contrast"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="white" valType="color" updates="constant" name="fillColor"/>
         <Param val="linear" valType="str" updates="constant" name="interpolate"/>
@@ -230,6 +236,7 @@
         <Param val="" valType="str" updates="constant" name="desc"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
         <Param val="end" valType="code" updates="None" name="name"/>
         <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
         <Param val="" valType="code" updates="constant" name="skipIf"/>
@@ -243,7 +250,7 @@
         <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
-        <Param val="marker_outlet.push_sample([&quot;end&quot;])&amp;#10;if started_recording:&amp;#10;    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False&amp;#10;" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="marker_outlet.push_sample([&quot;end&quot;])&amp;#10;if started_recording:&amp;#10;#    s.sendall(b&quot;stop\n&quot;)&amp;#10;    started_recording = False&amp;#10;" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Py" valType="str" updates="None" name="Code Type"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
@@ -264,6 +271,7 @@
         <Param val="" valType="str" updates="constant" name="desc"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
         <Param val="stimulus" valType="code" updates="None" name="name"/>
         <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
         <Param val="" valType="code" updates="constant" name="skipIf"/>
@@ -293,6 +301,7 @@
         <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
         <Param val="1" valType="num" updates="constant" name="contrast"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
         <Param val="Open Sans" valType="str" updates="constant" name="font"/>
@@ -324,6 +333,7 @@
         <Param val="" valType="str" updates="constant" name="desc"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
         <Param val="imagine" valType="code" updates="None" name="name"/>
         <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
         <Param val="" valType="code" updates="constant" name="skipIf"/>
@@ -353,6 +363,7 @@
         <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
         <Param val="1" valType="num" updates="constant" name="contrast"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
         <Param val="Open Sans" valType="str" updates="constant" name="font"/>
@@ -410,6 +421,7 @@
         <Param val="" valType="str" updates="constant" name="desc"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
         <Param val="speak" valType="code" updates="None" name="name"/>
         <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
         <Param val="" valType="code" updates="constant" name="skipIf"/>
@@ -439,6 +451,7 @@
         <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
         <Param val="1" valType="num" updates="constant" name="contrast"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
         <Param val="Open Sans" valType="str" updates="constant" name="font"/>
@@ -496,6 +509,7 @@
         <Param val="" valType="str" updates="constant" name="desc"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
         <Param val="action" valType="code" updates="None" name="name"/>
         <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
         <Param val="" valType="code" updates="constant" name="skipIf"/>
@@ -525,6 +539,7 @@
         <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
         <Param val="1" valType="num" updates="constant" name="contrast"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
         <Param val="Open Sans" valType="str" updates="constant" name="font"/>
@@ -556,6 +571,7 @@
         <Param val="" valType="str" updates="constant" name="desc"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
         <Param val="start_lsl" valType="code" updates="None" name="name"/>
         <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
         <Param val="" valType="code" updates="constant" name="skipIf"/>
@@ -573,6 +589,7 @@
         <Param val="" valType="str" updates="constant" name="desc"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
         <Param val="baseline" valType="code" updates="None" name="name"/>
         <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
         <Param val="" valType="code" updates="constant" name="skipIf"/>
@@ -602,6 +619,7 @@
         <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
         <Param val="1" valType="num" updates="constant" name="contrast"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="white" valType="color" updates="constant" name="fillColor"/>
         <Param val="linear" valType="str" updates="constant" name="interpolate"/>
