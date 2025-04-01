@@ -101,7 +101,7 @@
       <CodeComponent name="init" plugin="None">
         <Param val="from pylsl import StreamInfo, StreamOutlet&amp;#10;import socket&amp;#10;import os&amp;#10;import yaml&amp;#10;import random&amp;#10;&amp;#10;marker_info = StreamInfo('MarkerStream', 'Markers',&amp;#10;                         1, 0, 'string', 'myuid8342')&amp;#10;config_file = open('config.yaml')&amp;#10;yaml_config = yaml.safe_load(config_file)&amp;#10;marker_outlet = StreamOutlet(marker_info)&amp;#10;started_recording = False&amp;#10;s = socket.create_connection((&quot;localhost&quot;, 22345))" valType="extendedCode" updates="constant" name="Before Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
-        <Param val="participant_id = expInfo['participant']&amp;#10;run = expInfo['run']&amp;#10;test_run = expInfo['test_run']&amp;#10;config_type = expInfo['config']&amp;#10;TESTING = test_run == 'true' &amp;#10;task = yaml_config['task_2']&amp;#10;exp_config = yaml_config[config_type]&amp;#10;&amp;#10;config_str = f'filename {{template:sub-%p/sub-%p_task-%b_run-%n.xdf}} {{run:{run}}} {{participant:{participant_id}}} {{task:{task}}}\n'&amp;#10;print(config_str)&amp;#10;&amp;#10;s.sendall(b&quot;update\n&quot;)&amp;#10;s.sendall(b&quot;select all\n&quot;)&amp;#10;s.sendall(config_str.encode('utf-8'))&amp;#10;s.sendall(b&quot;start\n&quot;)&amp;#10;started_recording = True&amp;#10;&amp;#10;stimuli_repeats = exp_config['stimuli_repeats']&amp;#10;baseline_duration = exp_config['baseline_duration']&amp;#10;rest_range = exp_config['rest_range']&amp;#10;&amp;#10;REPEATS = int(stimuli_repeats)&amp;#10;print(f&quot;STIM REPEATS: {REPEATS}&quot;)&amp;#10;Introduce = open(os.path.join('stimuli','stimuli_chinese_Introduce.txt'), 'r')&amp;#10;culture = open(os.path.join('stimuli','stimuli_chinese_culture.txt'), 'r')&amp;#10;Travel = open(os.path.join('stimuli','stimuli_chinese_Travel.txt'), 'r')&amp;#10;Introduce_lines = Introduce.read().split('\n')&amp;#10;culture_lines = culture.read().split('\n')&amp;#10;Travel_lines = Travel.read().split('\n')&amp;#10;all_lines = [(Introduce_lines, 'Introduce'), (culture_lines,'culture'), (Travel_lines,'Travel')]&amp;#10;all_lines *= REPEATS&amp;#10;TRIALS = len(all_lines)&amp;#10;if TESTING:&amp;#10;    TRIALS = 1&amp;#10;index=0" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="participant_id = expInfo['participant']&amp;#10;run = expInfo['run']&amp;#10;test_run = expInfo['test_run']&amp;#10;config_type = expInfo['config']&amp;#10;TESTING = test_run == 'true' &amp;#10;task = yaml_config['task_2']&amp;#10;exp_config = yaml_config[config_type]&amp;#10;&amp;#10;config_str = f'filename {{template:sub-%p/sub-%p_task-%b_run-%n.xdf}} {{run:{run}}} {{participant:{participant_id}}} {{task:{task}}}\n'&amp;#10;print(config_str)&amp;#10;&amp;#10;s.sendall(b&quot;update\n&quot;)&amp;#10;s.sendall(b&quot;select all\n&quot;)&amp;#10;s.sendall(config_str.encode('utf-8'))&amp;#10;s.sendall(b&quot;start\n&quot;)&amp;#10;started_recording = True&amp;#10;&amp;#10;stimuli_repeats = exp_config['stimuli_repeats']&amp;#10;baseline_duration = exp_config['baseline_duration']&amp;#10;rest_range = exp_config['rest_range']&amp;#10;&amp;#10;REPEATS = int(stimuli_repeats)&amp;#10;print(f&quot;STIM REPEATS: {REPEATS}&quot;)&amp;#10;&amp;#10;# Open files with explicit UTF-8 encoding&amp;#10;with open(os.path.join('stimuli', 'stimuli_chinese_Introduce.txt'), 'r', encoding='utf-8') as introduce:&amp;#10;    introduce_lines = introduce.read().splitlines()  # Use splitlines() for robustness&amp;#10;&amp;#10;with open(os.path.join('stimuli', 'stimuli_chinese_Travel.txt'), 'r', encoding='utf-8') as travel:&amp;#10;    travel_lines = travel.read().splitlines()&amp;#10;&amp;#10;with open(os.path.join('stimuli', 'stimuli_chinese_culture.txt'), 'r', encoding='utf-8') as culture:&amp;#10;    culture_lines = culture.read().splitlines()&amp;#10;&amp;#10;all_lines = [(introduce_lines, 'introduce'), (travel_lines, 'travel'), (culture_lines, 'culture')]&amp;#10;all_lines *= REPEATS&amp;#10;TRIALS = len(all_lines)&amp;#10;if TESTING:&amp;#10;    TRIALS = 1&amp;#10;index = 0" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin Routine"/>
@@ -123,7 +123,7 @@
         <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
-        <Param val="Heiti SC" valType="str" updates="constant" name="font"/>
+        <Param val="Noto Sans SC" valType="str" updates="constant" name="font"/>
         <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
         <Param val="0.04" valType="num" updates="constant" name="letterHeight"/>
         <Param val="welcome_text" valType="code" updates="None" name="name"/>
@@ -137,7 +137,7 @@
         <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
         <Param val="" valType="code" updates="constant" name="stopVal"/>
         <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
-        <Param val="欢迎！&amp;#10;&amp;#10;在本实验中，您将分别进行默读想象和朗读表达屏幕上显示的段落。在每个段落之前，会显示一个十字符号作为视觉提示，鼓励您放松和休息。&amp;#10;&amp;#10;呈现的段落将被拆分为单个句子。您的任务是在脑海中想象这些句子，然后按照屏幕上的提示大声朗读。&amp;#10;&amp;#10;在完成每个句子的任务后，请务必按下空格键以继续到下一个句子；实验不会自动进行到下一步。&amp;#10;&amp;#10;按下空格键开始实验……" valType="str" updates="constant" name="text"/>
+        <Param val="欢迎！&amp;#10;&amp;#10;在这个实验中，您将默默想象并口头表达屏幕上显示的段落。每个段落前都会显示一个十字符号作为视觉提示，鼓励您花点时间休息和放松。呈现的段落将分成单独的句子。您的任务包括在脑海中想象这些句子，然后按照屏幕上的提示将它们说出来。完成每个句子的任务后，按空格键前进到下一个句子至关重要；如果没有此操作，实验将不会自动进行。&amp;#10;&amp;#10;按空格键开始实验..." valType="str" updates="constant" name="text"/>
         <Param val="from exp settings" valType="str" updates="None" name="units"/>
         <Param val="" valType="code" updates="None" name="validator"/>
         <Param val="" valType="num" updates="constant" name="wrapWidth"/>
@@ -269,7 +269,7 @@
         <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
-        <Param val="Heiti SC" valType="str" updates="constant" name="font"/>
+        <Param val="Noto Sans SC" valType="str" updates="constant" name="font"/>
         <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
         <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
         <Param val="stim_text" valType="code" updates="None" name="name"/>
@@ -357,7 +357,7 @@
         <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
-        <Param val="Heiti SC" valType="str" updates="constant" name="font"/>
+        <Param val="Noto Sans SC" valType="str" updates="constant" name="font"/>
         <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
         <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
         <Param val="imagine_prompt" valType="code" updates="None" name="name"/>
@@ -393,7 +393,7 @@
         <Param val="None" valType="color" updates="constant" name="fillColor"/>
         <Param val="False" valType="bool" updates="constant" name="flipHoriz"/>
         <Param val="False" valType="bool" updates="constant" name="flipVert"/>
-        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="Noto Sans SC" valType="str" updates="constant" name="font"/>
         <Param val="False" valType="bool" updates="constant" name="italic"/>
         <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
         <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
@@ -414,7 +414,7 @@
         <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
         <Param val="" valType="code" updates="constant" name="stopVal"/>
         <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
-        <Param val="$stimulus_val" valType="str" updates="set every repeat" name="text"/>
+        <Param val="$stimulus_val&amp;#10;" valType="str" updates="set every repeat" name="text"/>
         <Param val="from exp settings" valType="str" updates="None" name="units"/>
         <Param val="" valType="code" updates="None" name="validator"/>
       </TextboxComponent>
@@ -426,7 +426,7 @@
         <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
-        <Param val="Heiti SC" valType="str" updates="constant" name="font"/>
+        <Param val="Noto Sans SC" valType="str" updates="constant" name="font"/>
         <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
         <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
         <Param val="imagine_continue" valType="code" updates="None" name="name"/>
@@ -508,7 +508,7 @@
         <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
-        <Param val="Heiti SC" valType="str" updates="constant" name="font"/>
+        <Param val="Noto Sans SC" valType="str" updates="constant" name="font"/>
         <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
         <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
         <Param val="speak_prompt" valType="code" updates="None" name="name"/>
@@ -544,7 +544,7 @@
         <Param val="None" valType="color" updates="constant" name="fillColor"/>
         <Param val="False" valType="bool" updates="constant" name="flipHoriz"/>
         <Param val="False" valType="bool" updates="constant" name="flipVert"/>
-        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="Noto Sans SC" valType="str" updates="constant" name="font"/>
         <Param val="False" valType="bool" updates="constant" name="italic"/>
         <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
         <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
@@ -577,7 +577,7 @@
         <Param val="False" valType="code" updates="constant" name="draggable"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="None" valType="str" updates="constant" name="flip"/>
-        <Param val="Heiti SC" valType="str" updates="constant" name="font"/>
+        <Param val="Noto Sans SC" valType="str" updates="constant" name="font"/>
         <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
         <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
         <Param val="speak_continue" valType="code" updates="None" name="name"/>
